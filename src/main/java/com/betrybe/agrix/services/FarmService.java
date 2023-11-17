@@ -1,6 +1,5 @@
 package com.betrybe.agrix.services;
 
-import com.betrybe.agrix.controllers.exceptions.NotFoundException;
 import com.betrybe.agrix.models.entities.Crop;
 import com.betrybe.agrix.models.entities.Farm;
 import com.betrybe.agrix.models.repositories.CropRepository;
@@ -8,10 +7,7 @@ import com.betrybe.agrix.models.repositories.FarmRepository;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
 /**
  * Farm service class.

@@ -1,11 +1,17 @@
 package com.betrybe.agrix.controllers;
 
 import com.betrybe.agrix.controllers.dto.CropDto;
+import com.betrybe.agrix.controllers.exceptions.NotFoundException;
 import com.betrybe.agrix.models.entities.Crop;
 import com.betrybe.agrix.services.CropService;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,5 +48,39 @@ public class CropController {
             crop.getPlantedArea(),
             crop.getFarm().getId()))
         .collect(Collectors.toList());
+  }
+
+  /**
+   * Crop GET method.
+   *
+   * @param cropId Long
+   * @return ResponseEntity
+   */
+  @GetMapping(value = "/{cropId}")
+  public ResponseEntity<CropDto> getCropById(@PathVariable Long cropId) {
+    Optional<Crop> optionalCrop = cropService.getCropById(cropId);
+
+    if (optionalCrop.isEmpty()) {
+      throw new NotFoundException("Plantação não encontrada!");
+    }
+
+    Crop crop = optionalCrop.get();
+
+    return ResponseEntity.status(HttpStatus.OK).body(new CropDto(
+        crop.getId(),
+        crop.getName(),
+        crop.getPlantedArea(),
+        crop.getFarm().getId()));
+  }
+
+  /**
+   * Exception handler.
+   *
+   * @param exception NotFoundException
+   * @return ResponseEntity
+   */
+  @ExceptionHandler(NotFoundException.class)
+  public ResponseEntity<String> handleNotFoundException(NotFoundException exception) {
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
   }
 }
