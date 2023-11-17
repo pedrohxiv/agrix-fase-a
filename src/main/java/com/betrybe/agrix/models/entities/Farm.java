@@ -9,13 +9,11 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
 
-/**
- * Farm entity class.
- */
+/** Farm entity class. */
 @Entity
 @Table(name = "farms")
 public class Farm {
-
+  /** Attributes. */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -28,20 +26,11 @@ public class Farm {
   @JsonIgnore
   private List<Crop> crops;
 
-  /**
-   * Empty constructor.
-   */
+  /** Empty Constructor method. */
   public Farm() {
   }
 
-  /**
-   * Constructor.
-   *
-   * @param id    Long
-   * @param name  String
-   * @param size  Double
-   * @param crops List
-   */
+  /** Constructor method. */
   public Farm(Long id, String name, Double size, List<Crop> crops) {
     this.id = id;
     this.name = name;
@@ -49,6 +38,7 @@ public class Farm {
     this.crops = crops;
   }
 
+  /** Getters and Setters methods. */
   public Long getId() {
     return id;
   }

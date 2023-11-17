@@ -15,28 +15,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Crop controller class.
- */
+/** Crop controller class. */
 @RestController
 @RequestMapping(value = "/crops")
 public class CropController {
+  /** Attributes. */
   private final CropService cropService;
 
-  /**
-   * Constructor.
-   *
-   * @param cropService CropService
-   */
+  /** Constructor method. */
   public CropController(CropService cropService) {
     this.cropService = cropService;
   }
 
-  /**
-   * Crop GET method.
-   *
-   * @return ResponseEntity
-   */
+  /** GET crops method. */
   @GetMapping()
   public List<CropDto> getAllCrops() {
     List<Crop> allCrops = cropService.getAllCrops();
@@ -50,12 +41,7 @@ public class CropController {
         .collect(Collectors.toList());
   }
 
-  /**
-   * Crop GET method.
-   *
-   * @param cropId Long
-   * @return ResponseEntity
-   */
+  /** GET crop method. */
   @GetMapping(value = "/{cropId}")
   public ResponseEntity<CropDto> getCropById(@PathVariable Long cropId) {
     Optional<Crop> optionalCrop = cropService.getCropById(cropId);
@@ -73,12 +59,7 @@ public class CropController {
         crop.getFarm().getId()));
   }
 
-  /**
-   * Exception handler.
-   *
-   * @param exception NotFoundException
-   * @return ResponseEntity
-   */
+  /** Exception handler. */
   @ExceptionHandler(NotFoundException.class)
   public ResponseEntity<String> handleNotFoundException(NotFoundException exception) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());

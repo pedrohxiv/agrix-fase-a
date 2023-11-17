@@ -20,30 +20,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Farm controller class.
- */
+/** Farm controller class. */
 @RestController
 @RequestMapping(value = "/farms")
 public class FarmController {
+  /** Attributes. */
   private final FarmService farmService;
 
-  /**
-   * Constructor.
-   *
-   * @param farmService FarmService
-   */
+  /** Constructor method. */
   @Autowired
   public FarmController(FarmService farmService) {
     this.farmService = farmService;
   }
 
-  /**
-   * Farm POST method.
-   *
-   * @param farmDto FarmDto
-   * @return ResponseEntity
-   */
+  /** POST farm method. */
   @PostMapping()
   public ResponseEntity<Farm> createFarm(@RequestBody FarmDto farmDto) {
     Farm newFarm = farmService.createFarm(farmDto.toFarm());
@@ -51,11 +41,7 @@ public class FarmController {
     return ResponseEntity.status(HttpStatus.CREATED).body(newFarm);
   }
 
-  /**
-   * Farm GET method.
-   *
-   * @return ResponseEntity
-   */
+  /** GET farms method. */
   @GetMapping()
   public List<FarmDto> getAllFarms() {
     List<Farm> allFarms = farmService.getAllFarms();
@@ -65,12 +51,7 @@ public class FarmController {
         .collect(Collectors.toList());
   }
 
-  /**
-   * Farm GET method.
-   *
-   * @param farmId Long
-   * @return ResponseEntity
-   */
+  /** GET farm method. */
   @GetMapping(value = "/{farmId}")
   public ResponseEntity<Farm> getFarmById(@PathVariable Long farmId) {
     Optional<Farm> optionalFarm = farmService.getFarmById(farmId);
@@ -82,13 +63,7 @@ public class FarmController {
     return ResponseEntity.status(HttpStatus.OK).body(optionalFarm.get());
   }
 
-  /**
-   * Crop POST method.
-   *
-   * @param farmId  Long
-   * @param cropDto CropDto
-   * @return ResponseEntity
-   */
+  /** POST crop method. */
   @PostMapping(value = "/{farmId}/crops")
   public ResponseEntity<CropDto> createCrop(
       @PathVariable Long farmId,
@@ -108,12 +83,7 @@ public class FarmController {
         newCrop.getFarm().getId()));
   }
 
-  /**
-   * Crop GET method.
-   *
-   * @param farmId Long
-   * @return ResponseEntity
-   */
+  /** GET crops method. */
   @GetMapping(value = "/{farmId}/crops")
   public List<CropDto> getAllCropsByFarmId(@PathVariable Long farmId) {
     Optional<Farm> optionalFarm = farmService.getFarmById(farmId);
@@ -133,12 +103,7 @@ public class FarmController {
         .collect(Collectors.toList());
   }
 
-  /**
-   * Exception handler.
-   *
-   * @param exception NotFoundException
-   * @return ResponseEntity
-   */
+  /** Exception handler. */
   @ExceptionHandler(NotFoundException.class)
   public ResponseEntity<String> handleNotFoundException(NotFoundException exception) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());

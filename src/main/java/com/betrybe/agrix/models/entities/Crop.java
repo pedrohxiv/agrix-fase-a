@@ -9,13 +9,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
-/**
- * Crop entity class.
- */
+/** Crop entity class. */
 @Entity
 @Table(name = "crops")
 public class Crop {
-
+  /** Attributes. */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -29,20 +27,11 @@ public class Crop {
   @JoinColumn(name = "farm_id")
   private Farm farm;
 
-  /**
-   * Empty constructor.
-   */
+  /** Empty Constructor method. */
   public Crop() {
   }
 
-  /**
-   * Constructor.
-   *
-   * @param id          Long
-   * @param name        String
-   * @param plantedArea Double
-   * @param farm        Farm
-   */
+  /** Constructor method. */
   public Crop(Long id, String name, Double plantedArea, Farm farm) {
     this.id = id;
     this.name = name;
@@ -50,6 +39,7 @@ public class Crop {
     this.farm = farm;
   }
 
+  /** Getters and Setters methods. */
   public Long getId() {
     return id;
   }
