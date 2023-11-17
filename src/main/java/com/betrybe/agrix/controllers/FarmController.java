@@ -109,6 +109,31 @@ public class FarmController {
   }
 
   /**
+   * Crop GET method.
+   *
+   * @param farmId Long
+   * @return ResponseEntity
+   */
+  @GetMapping(value = "/{farmId}/crops")
+  public List<CropDto> getAllCropsByFarmId(@PathVariable Long farmId) {
+    Optional<Farm> optionalFarm = farmService.getFarmById(farmId);
+
+    if (optionalFarm.isEmpty()) {
+      throw new NotFoundException("Fazenda não encontrada!");
+    }
+
+    List<Crop> crops = farmService.getAllCropsByFarmId(farmId).get();
+
+    return crops.stream()
+        .map(crop -> new CropDto(
+            crop.getId(),
+            crop.getName(),
+            crop.getPlantedArea(),
+            crop.getFarm().getId()))
+        .collect(Collectors.toList());
+  }
+
+  /**
    * Exception handler.
    *
    * @param exception NotFoundException

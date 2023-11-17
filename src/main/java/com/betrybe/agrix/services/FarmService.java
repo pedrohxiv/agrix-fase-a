@@ -60,4 +60,22 @@ public class FarmService {
 
     return Optional.of(newCrop);
   }
+
+  /**
+   * Get crops by farm id.
+   *
+   * @param farmId Long
+   * @return crops
+   */
+  public Optional<List<Crop>> getAllCropsByFarmId(Long farmId) {
+    Optional<Farm> optionalFarm = farmRepository.findById(farmId);
+
+    if (optionalFarm.isEmpty()) {
+      return Optional.empty();
+    }
+
+    Farm farm = optionalFarm.get();
+
+    return Optional.of(farm.getCrops());
+  }
 }
